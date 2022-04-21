@@ -1,0 +1,25 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: masters
+
+  cloud:
+    consul:
+      enabled: true
+      host: localhost
+      port: 8500
+      config:
+        format: PROPERTIES
+        data-key: data
+        fail-fast: false
+      discovery:
+        instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${random.value}
+        healthCheckPath: /actuator/health
+        health-check-critical-timeout: 1m
+        prefer-ip-address: true
+
+    loadbalancer:
+      ribbon:
+        enabled: false

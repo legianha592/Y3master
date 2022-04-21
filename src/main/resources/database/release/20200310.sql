@@ -1,0 +1,17 @@
+update vehicle set VERSION = 0;
+update lookup set VERSION = 0;
+update location set VERSION = 0;
+update reason_code set VERSION = 0;
+update partners set VERSION = 0;
+update config_code set VERSION = 0;
+update partner_location set VERSION = 0;
+update uom_setting set VERSION = 0;
+update milkrun_trip set VERSION = 0;
+update driver set VERSION = 0;
+update partner_types set VERSION = 0;
+update common_tag set VERSION = 0;
+update partner_config set VERSION = 0;
+update milkrun_vehicle set VERSION = 0;
+update equipment set VERSION = 0;
+update operation_log set VERSION = 0;
+update milestone set VERSION = 0;

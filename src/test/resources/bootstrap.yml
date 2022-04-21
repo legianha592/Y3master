@@ -1,0 +1,12 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: masters
+
+  cloud:
+    bus:
+      enabled: false
+    consul:
+      enabled: false

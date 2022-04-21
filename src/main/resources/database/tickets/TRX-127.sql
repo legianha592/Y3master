@@ -1,0 +1,82 @@
+CREATE TABLE `config_code` (
+  `ID` bigint(11) NOT NULL AUTO_INCREMENT,
+  `CODE` varchar(255) DEFAULT '',
+  `DESCRIPTION` varchar(255) DEFAULT '',
+  `ACTIVE_IND` tinyint(1) DEFAULT 0,
+  `CREATED_BY` varchar(255) DEFAULT '',
+  `CREATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `UPDATED_BY` varchar(255) DEFAULT '',
+  `UPDATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `partner_types` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `CODE` varchar(255) DEFAULT '',
+  `DESCRIPTION` varchar(255) DEFAULT '',
+  `ACTIVE_IND` tinyint(1) DEFAULT 0,
+  `CREATED_BY` varchar(255) DEFAULT '',
+  `CREATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `UPDATED_BY` varchar(255) DEFAULT '',
+  `UPDATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `partners` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` bigint(20) NOT NULL,
+  `PARTNER_CODE` varchar(255) NOT NULL DEFAULT '',
+  `PARTNER_TYPES_ID` bigint(20) NOT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `PHONE` varchar(255) DEFAULT NULL,
+  `EMAIL` varchar(255) DEFAULT NULL,
+  `ACTIVE_IND` tinyint(1) DEFAULT 0,
+  `CREATED_BY` varchar(255) DEFAULT NULL,
+  `CREATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `UPDATED_BY` varchar(255) DEFAULT NULL,
+  `UPDATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `TENANT_ID` (`TENANT_ID`,`PARTNER_CODE`),
+  KEY `PARTNER_TYPES_ID` (`PARTNER_TYPES_ID`),
+  CONSTRAINT `partners_ibfk_1` FOREIGN KEY (`PARTNER_TYPES_ID`) REFERENCES `partner_types` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `partner_config` (
+  `ID` bigint(11) NOT NULL AUTO_INCREMENT,
+  `VALUE` varchar(255) DEFAULT '',
+  `DESCRIPTION` varchar(255) DEFAULT '',
+  `CONFIG_CODE_ID` bigint(20) DEFAULT NULL,
+  `PARTNER_ID` bigint(20) DEFAULT NULL,
+  `ACTIVE_IND` tinyint(1) DEFAULT 0,
+  `CREATED_BY` varchar(255) DEFAULT '',
+  `CREATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `UPDATED_BY` varchar(255) DEFAULT '',
+  `UPDATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID`),
+  KEY `CONFIG_CODE_ID` (`CONFIG_CODE_ID`),
+  KEY `PARTNER_ID` (`PARTNER_ID`),
+  CONSTRAINT `partner_config_ibfk_1` FOREIGN KEY (`CONFIG_CODE_ID`) REFERENCES `config_code` (`ID`),
+  CONSTRAINT `partner_config_ibfk_2` FOREIGN KEY (`PARTNER_ID`) REFERENCES `partners` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `partner_location` (
+  `ID` bigint(11) NOT NULL AUTO_INCREMENT,
+  `LOCATION_ID` bigint(20) DEFAULT NULL,
+  `PARTNER_ID` bigint(20) DEFAULT NULL,
+  `ACTIVE_IND` tinyint(1) DEFAULT 0,
+  `CREATED_BY` varchar(255) DEFAULT '',
+  `CREATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `UPDATED_BY` varchar(255) DEFAULT '',
+  `UPDATED_DATE` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID`),
+  KEY `PARTNER_ID` (`PARTNER_ID`),
+  KEY `LOCATION_ID` (`LOCATION_ID`),
+  CONSTRAINT `partner_location_ibfk_1` FOREIGN KEY (`PARTNER_ID`) REFERENCES `partners` (`ID`),
+  CONSTRAINT `partner_location_ibfk_2` FOREIGN KEY (`LOCATION_ID`) REFERENCES `location` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
